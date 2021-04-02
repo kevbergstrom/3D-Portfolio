@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3js portfolio demo</title>
+    <link rel="stylesheet" href="./styles/background.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/fontawesome-free-5.12.0-web/css/all.min.css">
+    <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body class="customFont">
+
+    <div id="fallbackScreen" class="fullHeight darkMode"></div>
+
+    <div id="loadScreen">
+        <div class="row h-100 darkMode">
+            <div class="col text-center align-self-center">
+                <h2 class="mediumTitle">Loading</h2>
+                <p id="loadScreenError"></p>
+                <div class="bg-dark">
+                    <div id="loadingBar" class="bg-light" style="width:0">&nbsp;</div>
+                </div>
+                <div>&nbsp;</div>
+                <button id="loadScreenClose" class="btn linkButton slideButton smallTitle" onclick="closeButton('loadScreen')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <nav id="navbar" class="navbar navbar-dark">
+        <div class="d-block d-sm-block d-md-none">
+            <button class="navbar-toggler" onclick="toggleNavbar()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navOptions" class="d-none darkBg" onclick="toggleNavbar()">
+                <a class="nav-link" href="#landing">HOME</a>
+                <a class="nav-link" href="#about">ABOUT</a>
+                <a class="nav-link" href="#education">EDUCATION</a>
+                <a class="nav-link" href="#projects">PROJECTS</a>
+                <a class="nav-link" href="#contact">CONTACT</a>
+            </div>
+        </div>
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <a class="nav-link d-none d-sm-none d-md-block" href="#landing">HOME</a>
+        <a class="nav-link d-none d-sm-none d-md-block" href="#about">ABOUT</a>
+        <a class="nav-link d-none d-sm-none d-md-block" href="#education">EDUCATION</a>
+        <a class="nav-link d-none d-sm-none d-md-block" href="#projects">PROJECTS</a>
+        <a class="nav-link d-none d-sm-none d-md-block" href="#contact">CONTACT</a>
+        
+    </nav>
+
+    <div id="landing" class='blocker'>
+        <div id="fallbackFront" class="row h-100 darkMode">
+            <div class="col text-center align-self-center">
+                <h1 class="largeTitle">
+                    Hello, my name is
+                    <span data-title="Kevin" class="accentColor nametag">Kevin</span>
+                    <span data-title="Bergstrom" class="accentColor nametag">Bergstrom</span>
+                    <br>
+                    I build things
+                    <span></span>
+                </h1>
+                <a class="btn linkButton slideButton smallTitle" href="#about">See More</a>
+            </div>
+        </div>
+    </div>
+
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+
+    <div id="optionButtons" class="text-center">
+        <button class="btn textButton slideButton" onclick="openContent('portfolio')">Portfolio</button>
+        <button class="btn textButton slideButton" onclick="openContent('options')">Options</button>
+        <button class="btn textButton slideButton" onclick="hideContent()">Hide</button>
+    </div>
+
+    <div id="options" class="d-none noBack container-fluid p-4 darkMode">
+            <div id="optionForms" class="container p-3">
+            </div>
+            <div class='info' style="background-color: rgb(18, 18, 18);"></div>
+            <div class='info' style="background-color: rgb(40, 40, 40);"></div>
+    </div>
+
+    <div id="portfolio">
+        <div id="about" class="noBack container-fluid p-4 darkMode">
+            <div class="container p-3 primBack">
+                        <h2 class="mediumTitle pb-3">About Me</h2>
+                        <p class="pb-3">Hi I'm Kevin, I'm an avid developer who like to build robust apps with stellar code. 
+                            React is the main framework that I use for software development. 
+                            Java and JavaScript are my go-to languages, but I also dabble in other languages like Python. 
+                            I'm always excited to learn new technologies or work on new projects. </p>
+                        <hr>
+                        <div class="d-flex justify-content-around">
+                            <a class="icon ghost" href="https://github.com/kevbergstrom"><i class="fab fa-github-square"></i></a>
+                            <a class="icon ghost" href="https://www.linkedin.com/in/kevbergstrom/"><i class="fab fa-linkedin"></i></a>
+                            <a class="icon ghost" href="https://twitter.com/kevbergstrom"><i class="fab fa-twitter-square"></i></a>
+                            <a class="icon ghost" href="#contact"><i class="fas fa-envelope-square"></i></a>
+                        </div>
+            </div>
+        </div>
+
+        <div id="education" class="noBack container-fluid p-4 darkMode">
+            <div class="container p-3 secBack">
+                <div class="row">
+                    <div class="col col-lg-4 col-md-6 col-sm-12 col-12">
+                        <h2 class="mediumTitle  pt-3">Education</h2>
+                        <p class="accentColor">Washington State University
+                            <br>
+                            <span class="textSecondary textGhost">2015 - 2019</span>
+                        </p>
+                        <p>Bachelor of Computer Science</p>
+                    </div>
+                    <div class="col col-lg-8 col-md-6 col-sm-12 col-12 pt-3">
+                        <div class="row ">
+                            <div class="col col-12 col-lg-4">
+                                <h3 class="smallTitle pb-3">Languages</h3>
+                                <a class="btn techButton" href="https://www.python.org/">Python</a>
+                                <a class="btn techButton" href="https://www.java.com/en/">Java</a>
+                                <a class="btn techButton" href="https://www.javascript.com/">JavaScript</a>
+                            </div>
+                            <div class="col col-12 col-lg-4">
+                                <h3 class="smallTitle pb-3">Frameworks</h3>
+                                <a class="btn techButton" href="https://reactjs.org/">React</a>
+                                <a class="btn techButton" href="https://www.npmjs.com/package/express">Express</a>
+                            </div>
+                            <div class="col col-12 col-lg-4">
+                                <h3 class="smallTitle pb-3">Technologies</h3>
+                                <a class="btn techButton" href="https://www.mysql.com/">SQL</a>
+                                <a class="btn techButton" href="https://nodejs.org/en/">Nodejs</a>
+                                <a class="btn techButton" href="https://www.mongodb.com/">MongoDB</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="projects" class="container-fluid p-4 darkMode noBack">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col col-12 primBack">
+                        <h2 class="mediumTitle py-3">Projects</h2>
+
+                        <div id="project1" class="row project shadow p-3 secBack">
+                            <div class="col col-lg-12 col-12 p-3">
+                                <h3 class="smallTitle pb-3">BugTracker</h3>
+                                <p class="pb-3">BugTracker is a React app for tracking bugs in projects. It offers a more simplified approach to bug tracking.</p>
+                                <hr>
+                                <div>
+                                    <a class="btn techButton" href="https://reactjs.org/">React</a>
+                                    <a class="btn techButton" href="https://www.mongodb.com/">MongoDB</a>
+                                    <a class="btn techButton" href="https://www.npmjs.com/package/express">Express</a>
+                                    <a class="btn techButton" href="https://nodejs.org/en/">Nodejs</a>
+                                </div>
+                                <div class="align-text-bottom">
+                                    <a class="btn linkButton slideButton" href="https://nameless-harbor-79292.herokuapp.com/">Live Demo</a>
+                                    <a class="btn textButton" href="https://github.com/kevbergstrom/BugTracker">Source Code</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="project1" class="row project shadow p-3 secBack">
+                            <div class="col col-lg-12 col-12 p-3">
+                                <h3 class="smallTitle pb-3">3D Portfolio</h3>
+                                <p class="pb-3">An interactive 3D portfolio that mixes html elements with Three.js web rendering capabilities.</p>
+                                <hr>
+                                <div>
+                                    <a class="btn techButton" href="https://threejs.org/">Three.js</a>
+                                    <a class="btn techButton" href="https://www.javascript.com/">JavaScript</a>
+                                </div>
+                                <div class="align-text-bottom">
+                                    <a class="btn linkButton slideButton" href="https://kevbergstrom.com/">Live Demo</a>
+                                    <a class="btn textButton" href="https://github.com/kevbergstrom/Portfolio-Website">Source Code</a>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div id="project2" class="row p-3 project shadow secBack">
+                            <div class="col col-lg-12 col-sm-12 col-12 p-3">
+                                <h3 class="smallTitle pb-3">Landmark Finder</h3>
+                                <p class="pb-3">Landmark Finder is a search engine for finding landmarks built with Flask. Featuring data scraping and and searching with Whoosh.</p>
+                                <hr>
+                                <div>
+                                    <a class="btn techButton" href="https://www.python.org/">Python</a>
+                                    <a class="btn techButton" href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a>
+                                    <a class="btn techButton" href="https://pypi.org/project/Whoosh/">Whoosh</a>
+                                </div>
+                                <div class="align-text-bottom">
+                                    <a class="btn textButton" href="https://github.com/kevbergstrom/LandmarkAttractions">Source Code</a>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div id="project3" class="row p-3 project shadow secBack">
+                            <div class="col col-lg-12 col-sm-12 col-12 p-3">
+                                <h3 class="smallTitle pb-3">Energy Forecast Predictor</h3>
+                                <p class="pb-3">A React Native app that predicts energy system demand in the Pacific Northwest. Featuring machine learning and real time data scraping.</p>
+                                <hr>
+                                <div>
+                                    <a class="btn techButton" href="https://www.python.org/">Python</a>
+                                    <a class="btn techButton" href="https://reactnative.dev/">React Native</a>
+                                    <a class="btn techButton" href="https://www.tensorflow.org/">TensorFlow</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+        <div id="contact" class="container-fluid p-4 noBack">
+
+            <div class="container">
+                <div class=" p-3">
+                    <h2 class="mediumTitle">Contact</h2>
+                </div>
+                <div class="row">
+
+                    <div class="col col-12 col-sm-12 col-md-8">
+                        <form action="https://formspree.io/kevbergstrom@gmail.com" method="POST">
+                            <input type="text" name="_gotcha" style="display:none">
+                            
+                            <div class="form-group">
+                            <input maxlength="100" type="text" name="_subject" class="form-control" id="contactName" placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <input maxlength="100" type="email" name="_replyto" class="form-control" id="contactEmail" placeholder="Your email">
+                            </div>
+                            <div class="form-group">
+                            <textarea maxlength="2000" name="body" class="form-control" id="contactMessage" rows="3" placeholder="Type your message here"></textarea>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn sendButton">SEND</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col col-12 col-sm-12 col-md-4">
+
+                        <div class="row text-center">
+                            <div class="col col-md-6 p-3">
+                                <a class="icon" href="https://github.com/kevbergstrom"><i class="fab fa-github-square ghost"></i></a>
+                            </div>
+                            <div class="col col-md-6 p-3">
+                                <a class="icon" href="https://www.linkedin.com/in/kevbergstrom/"><i class="fab fa-linkedin ghost"></i></a>
+                            </div>
+                            <div class="col col-md-6 p-3">
+                                <a class="icon" href="https://twitter.com/kevbergstrom"><i class="fab fa-twitter-square ghost"></i></a>
+                            </div>
+                            <div class="col col-md-6 p-3">
+                                <a class="icon" href="#contact"><i class="fas fa-envelope-square ghost"></i></a>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div id="filler" class="d-none">
+        <div class='info' style="background-color: rgb(40, 40, 40);">
+            <h>hello world</h>
+        </div>
+        <div class='info' style="background-color: rgb(18, 18, 18);"></div>
+        <div class='info' style="background-color: rgb(40, 40, 40);"></div>
+        <div class='info' style="background-color: rgb(40, 40, 40);"></div>
+        <div class='info' style="background-color: rgb(40, 40, 40);"></div>
+        <div class='info' style="background-color: rgb(40, 40, 40);"></div>
+        <div class='info' style="background-color: rgb(40, 40, 40);"></div>
+    </div>
+
+    <div id="footer" class="container-fluid">
+        <div class="container text-center py-2">
+            <a class="icon" href="#landing"><i class="fas fa-angle-double-up fa-inverse arrow"></i></a>
+            <p class="textGhost">Made by Kevin Bergstrom</p>
+        </div>
+    </div>
+
+    <canvas id="c"></canvas>
+    <script type="module" src='./js/background.js'></script>
+    <script src='./js/index.js'></script>
+</body>
+</html>
