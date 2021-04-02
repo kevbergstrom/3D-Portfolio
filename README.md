@@ -10,8 +10,14 @@ http-server 3D-Portfolio
 ```
 Then go to http://localhost:8000 to view the project
 
+## Configuration
+You can view all of the configuration options in config/configs.js
+* To change the 3D landing text update the `name` and `title` attributes under `landingText`
+* To change the time of day update the `timeOfDay` attribute from 0 to 24
+* To disable antialiasing update the `fxaa` attribute
+
 ## Performance
-* This project is relatively GPU intensive for a website, so mobile users or users with weak graphics cards may get a subpar experience with reduced framerates. You can boost the performance significantly by turning off antialiasing
+* This project is relatively GPU intensive for a website, so mobile users or users with weak graphics cards may get a subpar experience with reduced framerates. You can boost the performance significantly by turning off `fxaa`
 * You can also boost performance by removing any animated objects and only rendering when the screen moves
 * It is recommended to use low poly models for their reduced filesize and improved performance
 

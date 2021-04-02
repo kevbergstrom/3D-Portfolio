@@ -5,12 +5,11 @@ import {FXAAShader} from '../three/examples/jsm/shaders/FXAAShader.js';
 import {BufferGeometryUtils} from '../three/examples/jsm/utils/BufferGeometryUtils.js'
 
 import loadAssets from './assetLoader.js'
-
 import treeData from '../assets/models/trees.js';
 import * as PostShader from './shaders/post.js';
-
 import {generateOptions} from './options.js';
 import daytime from './daytime.js'
+import configs from '../config/config.js'
 
 function degToRad(deg){
     return deg * Math.PI/180;
@@ -94,7 +93,7 @@ function main(){
 
     //name text
     const worldText = new THREE.Object3D();
-    worldText.position.set(-1.1, 1.1, 4);
+    worldText.position.set(...configs.landingText.position);
     scene.add(worldText);
 
     //adding assets that needed to be loaded
@@ -150,8 +149,6 @@ function main(){
         mergedMountain.matrixAutoUpdate = false;
         scene.add(mergedMountain);
 
-
-
         //instancing trees
         const _trunkMesh = models.lowPolyTree.gltf.scene.getObjectByName( 'trunk' );
         const _treeMesh = models.lowPolyTree.gltf.scene.getObjectByName( 'tree' );
@@ -187,32 +184,32 @@ function main(){
         treeMesh.matrixAutoUpdate = false;
 
         scene.add(trunkMesh);
-        scene.add(treeMesh);  
+        scene.add(treeMesh); 
 
-        //fonts stuff
-        const montSemiGeo = new THREE.TextBufferGeometry('Kevin\nBergstrom', {
-            font: fonts.montSemiBold.font,
-            size: 0.30,
-            height: 0.0,
-            curveSegments: 3.0
-        })
-    
         let textMat = new THREE.MeshBasicMaterial({
             color: 0xFFFFFF,
             toneMapped: false,
         });
 
-
-        montSemiGeo.translate(0.0, 0.35, 0.0);
-    
-        const montItalicGeo = new THREE.TextBufferGeometry('Software Developer', {
-            font: fonts.montItalic.font,
-            size: 0.15,
-            height: 0.0,
-            curveSegments: 0.5,
+        //fonts stuff
+        const montSemiGeo = new THREE.TextBufferGeometry(configs.landingText.name.text, {
+            font: fonts.montSemiBold.font,
+            ...configs.landingText.name
         })
+
+
+        montSemiGeo.translate(0.0, configs.landingText.start, 0.0);
     
-        montItalicGeo.translate(0.0, -0.35, 0.0);
+        const montItalicGeo = new THREE.TextBufferGeometry(configs.landingText.title.text, {
+            font: fonts.montItalic.font,
+            ...configs.landingText.title
+        })
+
+        const nameMesh = new THREE.Mesh(montSemiGeo, textMat);
+        nameMesh.geometry.computeBoundingBox();
+        const nameSize = nameMesh.geometry.boundingBox.max.y - nameMesh.geometry.boundingBox.min.y;
+
+        montItalicGeo.translate(0.0, configs.landingText.start-nameSize+0.12, 0.0);
 
         let mergedGeo = BufferGeometryUtils.mergeBufferGeometries([montSemiGeo, montItalicGeo]);
         let mergedMesh = new THREE.Mesh(mergedGeo, textMat);
@@ -226,7 +223,8 @@ function main(){
         scene.add(planeMesh);
 
         //start rendering after everything is loaded
-        setTimeOfDay(timeOfDay)
+        timeOfDay = configs.timeOfDay;
+        setTimeOfDay(timeOfDay);
         requestAnimationFrame(render);
 
         document.getElementById('fallbackFront').style.display = 'none';
@@ -300,7 +298,10 @@ function main(){
 
     const composer = new EffectComposer(renderer);
     composer.addPass(postShader);
-    composer.addPass( effectFXAA );
+
+    if(configs.fxaa){
+        composer.addPass( effectFXAA );
+    }
 
     let timeOfDay = 12;
 
@@ -361,7 +362,7 @@ function main(){
         //     update: (e => {postShader.uniforms.waterColor.value = new THREE.Color(`hsl(${e}, 54%, 43%)`)}),
         // },
         {
-            data: true,
+            data: configs.fxaa,
             title: 'Antialiasing',
             update: (e => e? composer.addPass( effectFXAA ) :  
                              composer.removePass( effectFXAA ))
