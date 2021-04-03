@@ -9,6 +9,8 @@ You can use any web server to host this project locally. I prefer using the npm 
 ```
 http-server -c-1
 ```
+Then go to http://localhost:8080 to view the project
+
 If you have python3 installed you can use http.server
 ```
 python3 -m http.server
