@@ -29,7 +29,7 @@ uniform vec3 waterColor;
 uniform vec3 skyColorPrimary;
 uniform vec3 skyColorSecondary;
 uniform sampler2D tDiffuse2;
-
+uniform float pixelRatio;
 uniform float waveSize;
 
 float readDepth( sampler2D depthSampler, vec2 coord ) {
@@ -60,6 +60,7 @@ void main() {
     float unitHeight = res.y/pixelUnits;
 
     float screenPosY = res.y - gl_FragCoord.y + scrollY;
+    // float screenPosY = res.y - gl_FragCoord.y/pixelRatio + scrollY*pixelRatio;
     float waterHeight = res.y + (${displacement(`( (vUv.x-0.5)*(res.x/res.y)*pixelUnits/10.0 )`,`(res.x/res.y)*pixelUnits`)})*-unitHeight*waveSize;   
     //why is x divided by 10.0? it wont work for any other wavelength than 5.0
     //the watershader's wavelength doesnt change while this function's wavelength does

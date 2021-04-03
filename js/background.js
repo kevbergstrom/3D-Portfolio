@@ -15,8 +15,6 @@ function degToRad(deg){
     return deg * Math.PI/180;
 }
 
-const smallWidth = 576;
-
 function main(){
     const canvas = document.querySelector('#c');
     const renderer = new THREE.WebGLRenderer({
@@ -31,7 +29,10 @@ function main(){
 	renderer.toneMappingExposure = 1.25;
 
     //for phones with large pixel ratios
-    renderer.setPixelRatio(Math.min(renderer.getPixelRatio(), 1));
+    //renderer.setPixelRatio(Math.min(renderer.getPixelRatio(), 2));
+    renderer.setPixelRatio(1);
+
+    if(renderer.getPixelRatio() > 1){ configs.fxaa = false };
 
     //how can I measure performance?
 
@@ -293,8 +294,10 @@ function main(){
     // fxaa antialiasing 
     let effectFXAA = new ShaderPass( FXAAShader );
     let pixelRatio = renderer.getPixelRatio();
-    effectFXAA.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * pixelRatio );
-    effectFXAA.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * pixelRatio );
+    // effectFXAA.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * pixelRatio );
+    // effectFXAA.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * pixelRatio );
+    effectFXAA.material.uniforms[ 'resolution' ].value.x = 1 / ( canvas.width );
+    effectFXAA.material.uniforms[ 'resolution' ].value.y = 1 / ( canvas.height );
 
     const composer = new EffectComposer(renderer);
     composer.addPass(postShader);
@@ -375,7 +378,8 @@ function main(){
         const canvas = renderer.domElement;
         const width = canvas.clientWidth;
         const height = canvas.clientHeight;
-        const needResize = canvas.width !== width || canvas.height !== height;
+        const needResize = canvas.width !== Math.floor(width*pixelRatio) || 
+                            canvas.height !== Math.floor(height*pixelRatio);
         if(needResize){
             renderer.setSize(width, height, false);
             frustumHeight = 2*near*Math.tan(degToRad(fov*0.5));
@@ -434,8 +438,8 @@ function main(){
             postShader.uniforms.res.value.y = canvas.height;
             postShader.uniforms.uProjInverse.value.copy(camera.projectionMatrixInverse);
 
-            effectFXAA.material.uniforms[ 'resolution' ].value.x = 1 / ( canvas.width * pixelRatio );
-            effectFXAA.material.uniforms[ 'resolution' ].value.y = 1 / ( canvas.height * pixelRatio );
+            effectFXAA.material.uniforms[ 'resolution' ].value.x = 1 / ( canvas.width );
+            effectFXAA.material.uniforms[ 'resolution' ].value.y = 1 / ( canvas.height );
             
             depthTarget.setSize(canvas.width, canvas.height);
             updateDepthBuffer();
