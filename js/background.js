@@ -37,12 +37,14 @@ function main(){
     //how can I measure performance?
 
     // Create the camera
-    const fov = 75;
+    const fov = configs.fov;
     const aspect = 2;
-    const near = 1;
-    const far = 50.0; //should this be lower?
+    const near = configs.near;
+    const far = configs.far; //should this be lower?
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.z = 7;
+
+    const startingY = configs.cameraPosition[1];
+    camera.position.set(...configs.cameraPosition);
 
     let frustumHeight = 2*near*Math.tan(degToRad(fov*0.5));
 
@@ -55,10 +57,7 @@ function main(){
     const textures = {
         caustic: {url: '../assets/textures/caustics.jpg' },
     }
-    const fonts = {
-        montSemiBold: {url: 'assets/fonts/Montserrat/Montserrat-SemiBold.ttf'},
-        montItalic: {url: 'assets/fonts/Montserrat/Montserrat-Italic.ttf'},
-    }
+    const fonts = { ...configs.fonts }
     const models = {
         lowPolyLake: {url: '../assets/models/lpLake.gltf'},
         lowPolyTree: {url: '../assets/models/lpTree.gltf'},
@@ -188,31 +187,31 @@ function main(){
         scene.add(treeMesh); 
 
         let textMat = new THREE.MeshBasicMaterial({
-            color: 0xFFFFFF,
-            toneMapped: false,
+            ...configs.landingText.material
         });
 
         //fonts stuff
-        const montSemiGeo = new THREE.TextBufferGeometry(configs.landingText.name.text, {
-            font: fonts.montSemiBold.font,
-            ...configs.landingText.name
+        let nameConfig = configs.landingText.name;
+        const nameGeo = new THREE.TextBufferGeometry(nameConfig.text, {
+            ...nameConfig,
+            font: fonts[nameConfig.font].font
         })
 
-
-        montSemiGeo.translate(0.0, configs.landingText.start, 0.0);
+        nameGeo.translate(0.0, configs.landingText.start, 0.0);
     
-        const montItalicGeo = new THREE.TextBufferGeometry(configs.landingText.title.text, {
-            font: fonts.montItalic.font,
-            ...configs.landingText.title
+        let titleConfig = configs.landingText.title;
+        const titleGeo = new THREE.TextBufferGeometry(titleConfig.text, {
+            ...titleConfig,
+            font: fonts[titleConfig.font].font
         })
 
-        const nameMesh = new THREE.Mesh(montSemiGeo, textMat);
+        const nameMesh = new THREE.Mesh(nameGeo, textMat);
         nameMesh.geometry.computeBoundingBox();
         const nameSize = nameMesh.geometry.boundingBox.max.y - nameMesh.geometry.boundingBox.min.y;
 
-        montItalicGeo.translate(0.0, configs.landingText.start-nameSize+0.12, 0.0);
+        titleGeo.translate(0.0, configs.landingText.start-nameSize+0.12, 0.0);
 
-        let mergedGeo = BufferGeometryUtils.mergeBufferGeometries([montSemiGeo, montItalicGeo]);
+        let mergedGeo = BufferGeometryUtils.mergeBufferGeometries([nameGeo, titleGeo]);
         let mergedMesh = new THREE.Mesh(mergedGeo, textMat);
         mergedMesh.matrixAutoUpdate = false;
         worldText.add(mergedMesh);
@@ -425,7 +424,7 @@ function main(){
             composer.setSize(canvas.width, canvas.height);
 
             scrollY = window.scrollY;
-            camera.position.y = frustumHeight/2 - scrollY*(frustumHeight/window.innerHeight);
+            camera.position.y = frustumHeight/2 - scrollY*(frustumHeight/window.innerHeight) + startingY;
 
             if(camera.aspect < 0.5){
                 worldText.scale.set(0.75,0.75,0.75);
@@ -449,7 +448,7 @@ function main(){
             scrollY = window.scrollY;
 
             // Convert pixels to 3js units
-            camera.position.y = frustumHeight/2 - scrollY*(frustumHeight/window.innerHeight);
+            camera.position.y = frustumHeight/2 - scrollY*(frustumHeight/window.innerHeight) + startingY;
             updateDepthBuffer();
         }
 

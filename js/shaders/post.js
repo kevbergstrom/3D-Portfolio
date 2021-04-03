@@ -29,7 +29,6 @@ uniform vec3 waterColor;
 uniform vec3 skyColorPrimary;
 uniform vec3 skyColorSecondary;
 uniform sampler2D tDiffuse2;
-uniform float pixelRatio;
 uniform float waveSize;
 
 float readDepth( sampler2D depthSampler, vec2 coord ) {
