@@ -75,14 +75,6 @@ void main() {
 
     if(screenPosY > waterHeight-foamSize ){
 
-        // float X = vUv.x*25.0+uTime;
-        // float Y = vUv.y*25.0+uTime;
-    
-        // vUv.y += cos(X+Y)*0.01*cos(Y);
-        // vUv.x += sin(X-Y)*0.01*sin(Y);
-    
-        //previousPassColor = texture2D(tDiffuse, vUv);
-
         //underwater fog effect
         float depthStart = 0.15;
         gl_FragColor = previousPassColor + ((vec4(waterColor, 1.0)*1.0-distanceToSurface/res.y/10.0) - previousPassColor) * (depthStart+(depth*(1.0-depthStart)));
