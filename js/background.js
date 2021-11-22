@@ -262,6 +262,7 @@ function main(){
     
     let waveSize = {value: 1.0};
     let waterColor = { value: new THREE.Color(0x0082FF) };
+    let showDepth = false;
 
     const postProc = {
         uniforms: {
@@ -272,6 +273,7 @@ function main(){
             cameraNear: {value: near},
             cameraFar: {value: far},
             tDepth: {type: 't', value: depthTarget.depthTexture},
+            showDepth: {value: showDepth},
             tCaustic: {type: 't', value: causticTexture},
             uProjInverse: { value: camera.projectionMatrixInverse},
             uMatrixWorld: { value: camera.matrixWorld},
@@ -368,6 +370,14 @@ function main(){
             title: 'Antialiasing',
             update: (e => e? composer.addPass( effectFXAA ) :  
                              composer.removePass( effectFXAA ))
+        },
+        {
+            data: showDepth,
+            title: 'Depth Map',
+            update: (e => {
+                showDepth = e
+                postShader.uniforms.showDepth.value = showDepth
+            })
         },
     ]
 

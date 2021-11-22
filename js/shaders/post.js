@@ -24,6 +24,7 @@ uniform vec2 res;
 uniform float cameraNear;
 uniform float cameraFar;
 uniform sampler2D tDepth;
+uniform bool showDepth;
 uniform sampler2D tCaustic;
 uniform vec3 waterColor;
 uniform vec3 skyColorPrimary;
@@ -53,6 +54,12 @@ vec3 getWorldPosition( float depth){
 }
 
 void main() {
+
+    if(showDepth == true){
+        vec4 depthPassColor = texture2D(tDepth, vUv);
+        gl_FragColor = depthPassColor;
+        return;
+    }
 
     vec4 previousPassColor = texture2D(tDiffuse2, vUv);
     gl_FragColor = previousPassColor;//vec4( previousPassColor.rgb * waterColor, previousPassColor.a);
@@ -89,7 +96,7 @@ void main() {
         float falloff = clamp((res.y*pixelUnits*1.5-distanceToSurface)/distanceToSurface, 0.0, 1.0);
         vec4 causticPoint = texture2D(tCaustic, vec2(((vUv.x-0.5)*res.x/pixelUnits/200.0)+distanceToSurface/600.0, uTime*0.2));
         gl_FragColor.rgb += causticPoint.r*0.07*falloff;
-
+        
     } else {
         //foam on geometry effect
         waterHeight = ${displacement(`( worldPos.x/10.0 )`,`( worldPos.y )`)}*unitHeight*waveSize;
@@ -116,7 +123,7 @@ void main() {
 
     //foam on window effect
     if(distanceToSurface < foamSize){
-        gl_FragColor.rbg += 1.0;
+        gl_FragColor.rgb += 1.0;
     }
 }
 `;
